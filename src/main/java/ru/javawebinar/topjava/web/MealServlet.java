@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.web;
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.storage.LocalMealMapStorage;
+import ru.javawebinar.topjava.storage.MapStorage;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import javax.servlet.ServletException;
@@ -12,13 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 @WebServlet("/meals")
 public class MealServlet extends HttpServlet {
     private static final Logger log = getLogger(MealServlet.class);
-    private LocalMealMapStorage localMealMapStorage;
+    private MapStorage<Meal> localMealMapStorage;
 
     @Override
     public void init() throws ServletException {
@@ -67,13 +69,13 @@ public class MealServlet extends HttpServlet {
                 break;
             case "edit":
                 id = Long.parseLong(req.getParameter("id"));
-                Meal meal = localMealMapStorage.get(id);
+                Meal meal = (Meal) localMealMapStorage.get(id);
                 log.debug("Redirected to update form for id {}",id);
                 req.setAttribute("meal", meal);
                 req.getRequestDispatcher("/meal-edit-form.jsp").forward(req, resp);
                 break;
             default:
-                req.setAttribute("mealList", MealsUtil.getAllWithExceeded(localMealMapStorage.getAll(), MealsUtil.DAILY_CALORIES_LIMIT));
+                req.setAttribute("mealList", MealsUtil.getAllWithExceeded((List<Meal>)localMealMapStorage.getAll(), MealsUtil.DAILY_CALORIES_LIMIT));
                 log.debug("Showing all meals");
                 req.getRequestDispatcher("/meals.jsp").forward(req, resp);
                 break;
