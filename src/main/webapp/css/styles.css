@@ -1,0 +1,52 @@
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.header {
+    padding: 5px;
+    background: darkslategrey;
+    color: aliceblue;
+    font-size: 0.9em;
+    font-family: "Palatino Linotype", serif;
+}
+
+.link {
+    color: aliceblue;
+    font-family: "Palatino Linotype", serif;
+}
+
+.text {
+    font-family: "Palatino Linotype", serif;
+    color: black;
+}
+
+.content-table {
+    border: none;
+    border-collapse: collapse;
+    font-family: serif;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+}
+
+.content-table thead tr {
+    background-color: darkslategrey;
+    color: aliceblue;
+    text-align: center;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 3px solid darkslategrey;
+}
