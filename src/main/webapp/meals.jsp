@@ -18,10 +18,8 @@
     <thead>
     <tr>
         <th>#</th>
-        <th>ID</th>
         <th>Description</th>
         <th>Calories</th>
-        <th>Excess</th>
         <th>Date</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -35,10 +33,8 @@
         <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
         <tr>
             <td>${i}</td>
-            <td>${meal.id}</td>
             <td>${meal.description}</td>
-            <td>${meal.calories}</td>
-            <td class="${meal.excess ? "red" : "green"}">${meal.excess ? 'yes' : 'no'}</td>
+            <td class="${meal.excess ? "red" : "green"}">${meal.calories}</td>
             <td><javatime:format pattern="dd-MM-yyyy HH:mm" value="${meal.dateTime}"/></td>
             <td><a href="meals?action=edit&id=${meal.id}">
                 <button class="text">Edit</button>

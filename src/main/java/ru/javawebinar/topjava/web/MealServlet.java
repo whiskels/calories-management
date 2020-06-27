@@ -34,7 +34,7 @@ public class MealServlet extends HttpServlet {
         final String action = req.getParameter("action");
         log.debug("POST request. Action: {}", action);
 
-        switch (action != null ? action : "null") {
+        switch (action != null ? action : "") {
             case "update": // drop through to create
             case "create":
                 final Long id = req.getParameter("id") == null ? null : Long.parseLong(req.getParameter("id"));
@@ -59,7 +59,7 @@ public class MealServlet extends HttpServlet {
         log.debug("GET request. Action: {}", action);
         long id;
 
-        switch (action != null ? action : "null") {
+        switch (action != null ? action : "") {
             case "delete":
                 id = Long.parseLong(req.getParameter("id"));
                 localMealMapStorage.delete(id);
@@ -69,7 +69,7 @@ public class MealServlet extends HttpServlet {
                 break;
             case "edit":
                 id = Long.parseLong(req.getParameter("id"));
-                Meal meal = (Meal) localMealMapStorage.get(id);
+                Meal meal = localMealMapStorage.get(id);
                 log.debug("Redirected to update form for id {}",id);
                 req.setAttribute("meal", meal);
                 req.getRequestDispatcher("/meal-edit-form.jsp").forward(req, resp);

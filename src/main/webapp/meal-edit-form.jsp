@@ -15,7 +15,6 @@
 <table class="content-table">
     <thead>
     <tr>
-        <th>ID</th>
         <th>Description</th>
         <th>Calories</th>
         <th>Date</th>
@@ -26,7 +25,6 @@
     <form class="text" method="POST" action="meals?action=update">
         <tr>
             <%--@elvariable id="meal" type="ru.javawebinar.topjava.model.Meal"--%>
-            <td>${meal.id}</td>
             <td><input class="text" type="text" name="description" value="${meal.description}"/></td>
             <td><input class="text" type="number" name="calories" value="${meal.calories}"/></td>
             <td><input class="text" type="datetime-local" name="dateTime" value="${meal.dateTime}"/></td>

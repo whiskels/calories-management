@@ -9,16 +9,16 @@ public class MealTo {
     protected final int calories;
     protected final boolean excess;
 
-    public MealTo(long id, LocalDateTime dateTime, String description, int calories, boolean excess) {
-        this(dateTime, description, calories, excess);
+    public MealTo(Long id, LocalDateTime dateTime, String description, int calories, boolean excess) {
         this.id = id;
-    }
-
-    public MealTo(LocalDateTime dateTime, String description, int calories, boolean excess) {
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
         this.excess = excess;
+    }
+
+    public MealTo(LocalDateTime dateTime, String description, int calories, boolean excess) {
+        this(null, dateTime, description, calories, excess);
     }
 
     @Override
