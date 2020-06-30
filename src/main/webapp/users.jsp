@@ -1,11 +1,18 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
 <html lang="ru">
 <head>
-    <title>Users</title>
+    <meta charset="UTF-8">
+    <title>Java Enterprise (Topjava)</title>
 </head>
 <body>
-<h3><a href="index.html">Home</a></h3>
+<h3>Проект <a href="https://github.com/JavaWebinar/topjava" target="_blank">Java Enterprise (Topjava)</a></h3>
 <hr>
-<h2>Users</h2>
+<form method="post" action="users">
+    <b>Select user</b>
+    <select name="userId">
+        <option value="1">User#1</option>
+        <option value="2">User#2</option>
+    </select>
+    <button type="submit">Apply</button>
+</form>
 </body>
 </html>
