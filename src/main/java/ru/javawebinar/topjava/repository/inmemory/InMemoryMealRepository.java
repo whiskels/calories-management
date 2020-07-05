@@ -19,7 +19,8 @@ public class InMemoryMealRepository implements MealRepository {
     private AtomicInteger counter = new AtomicInteger(0);
 
     {
-        MealsUtil.MEALS.forEach(meal -> save(1, meal));
+        MealsUtil.MEALS_FIRST_USER.forEach(meal -> save(1, meal));
+        MealsUtil.MEALS_SECOND_USER.forEach(meal -> save(2, meal));
     }
 
     @Override
@@ -52,20 +53,19 @@ public class InMemoryMealRepository implements MealRepository {
         return getFiltered(userId, meal -> true);
     }
 
+    @Override
+    public List<Meal> getByDate(int userId, LocalDate start, LocalDate end) {
+        return getFiltered(userId, meal -> DateTimeUtil.isBetween(meal.getDate(), start, end));
+    }
+
     private List<Meal> getFiltered(int userId, Predicate<Meal> filter) {
         Map<Integer, Meal> userMeals = repository.get(userId);
-        return userMeals == null ? Collections.emptyList() : repository.get(userId)
-                .values()
+        return userMeals == null ? Collections.emptyList() : userMeals.values()
                 .stream()
                 .filter(filter)
                 .sorted(Comparator.comparing(Meal::getDateTime)
                         .reversed())
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Meal> getByDate(int userId, LocalDate start, LocalDate end) {
-        return getFiltered(userId, meal -> DateTimeUtil.isBetween(meal.getDate(), start, end));
     }
 }
 

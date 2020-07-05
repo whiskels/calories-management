@@ -22,6 +22,10 @@ public class MealService {
         return repository.save(userId, meal);
     }
 
+    public Meal update(int userId, Meal meal) {
+        return checkNotFoundWithId(repository.save(userId, meal), meal.getId());
+    }
+
     public void delete(int userId, int id) {
         checkNotFoundWithId(repository.delete(userId, id), id);
     }

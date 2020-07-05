@@ -39,57 +39,61 @@ public class MealServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setCharacterEncoding("UTF-8");
+        final String id = req.getParameter("id");
 
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
-                LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"),
-                Integer.parseInt(request.getParameter("calories")));
+                LocalDateTime.parse(req.getParameter("dateTime")),
+                req.getParameter("description"),
+                Integer.parseInt(req.getParameter("calories")));
 
-        log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
-        controller.create(meal);
-        response.sendRedirect("meals");
+        log.debug("POST request. Action: {}", meal.isNew() ? "create" : "update");
+        if (meal.isNew()) {
+            controller.create(meal);
+        } else {
+            controller.update(meal);
+        }
+        resp.sendRedirect("meals");
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
 
         switch (action == null ? "all" : action) {
             case "delete":
-                int id = getId(request);
+                int id = getId(req);
                 log.info("Delete {}", id);
                 controller.delete(id);
-                response.sendRedirect("meals");
+                resp.sendRedirect("meals");
                 break;
             case "create":
             case "update":
                 final Meal meal = "create".equals(action) ?
-                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        controller.get(getId(request));
-                request.setAttribute("meal", meal);
-                request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
+                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 0) :
+                        controller.get(getId(req));
+                req.setAttribute("meal", meal);
+                req.getRequestDispatcher("/mealForm.jsp").forward(req, resp);
                 break;
             case "filter":
                 log.info("filter");
-                String startD = request.getParameter("startDate");
-                String endD = request.getParameter("endDate");
-                String startT = request.getParameter("startTime");
-                String endT = request.getParameter("endTime");
+                String startD = req.getParameter("startDate");
+                String endD = req.getParameter("endDate");
+                String startT = req.getParameter("startTime");
+                String endT = req.getParameter("endTime");
                 LocalDate startDate = startD.length() == 0 ? null : LocalDate.parse(startD);
                 LocalDate endDate = endD.length() == 0 ? null : LocalDate.parse(endD);
                 LocalTime startTime = startT.length() == 0 ? null : LocalTime.parse(startT);
                 LocalTime endTime = endT.length() == 0 ? null : LocalTime.parse(endT);
-                request.setAttribute("meals", controller.getAll(startDate, startTime, endDate, endTime));
-                request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                req.setAttribute("meals", controller.getAll(startDate, startTime, endDate, endTime));
+                req.getRequestDispatcher("/meals.jsp").forward(req, resp);
                 break;
             case "all":
             default:
                 log.info("getAll");
-                request.setAttribute("meals", controller.getAll());
-                request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                req.setAttribute("meals", controller.getAll());
+                req.getRequestDispatcher("/meals.jsp").forward(req, resp);
                 break;
         }
     }

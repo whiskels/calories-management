@@ -22,8 +22,8 @@ public class InMemoryUserRepository implements UserRepository {
     private static final Logger log = LoggerFactory.getLogger(InMemoryUserRepository.class);
 
     {
-        save(new User(1, "test", "user@mail.com", "pwp", Role.USER));
-        save(new User(2, "testAdm", "adm@mail.com", "pwp", Role.ADMIN));
+        save(new User(null, "test", "user@mail.com", "pwp", Role.USER));
+        save(new User(null, "testAdm", "adm@mail.com", "pwp", Role.ADMIN));
     }
 
     @Override
@@ -60,6 +60,5 @@ public class InMemoryUserRepository implements UserRepository {
         return repository.values().stream()
                 .filter(u -> u.getEmail().equals(email))
                 .findFirst().orElse(null);
-
     }
 }
