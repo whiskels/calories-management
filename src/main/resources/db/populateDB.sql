@@ -19,4 +19,4 @@ VALUES (100000, 'Pastrami sandwich', 500, '2020-07-11 10:00:00'),
        (100000, 'Orange juice', 100, '2020-07-11 12:00:00'),
        (100000, 'Vegetable salad', 500, '2020-07-11 14:00:00'),
        (100000, 'Ice cream', 500, '2020-07-11 20:00:00'),
-       (100001, 'Admin super meal', 9999, current_timestamp);
+       (100001, 'Admin super meal', 9999, '2020-07-11 22:00:00');
