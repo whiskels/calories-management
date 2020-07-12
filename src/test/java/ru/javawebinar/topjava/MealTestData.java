@@ -16,7 +16,6 @@ public class MealTestData {
     public static final int NOT_FOUND = 10;
     public static final int MEAL_START_ID = START_SEQ + 2;
 
-
     public static final Meal USER_MEAL_MORNING = new Meal(MEAL_START_ID, LocalDateTime.of(2020, 7, 11, 10, 0), "Pastrami sandwich", 500);
     public static final Meal USER_MEAL_LUNCH = new Meal(MEAL_START_ID + 1, LocalDateTime.of(2020, 7, 11, 12, 0), "Orange juice", 100);
     public static final Meal USER_MEAL_DINNER = new Meal(MEAL_START_ID + 2, LocalDateTime.of(2020, 7, 11, 14, 0), "Vegetable salad", 500);
@@ -35,7 +34,7 @@ public class MealTestData {
     }
 
     public static void assertMatch(Meal actual, Meal expected) {
-        assertThat(actual).isEqualToIgnoringGivenFields(expected);
+        assertThat(actual).isEqualToComparingFieldByField(expected);
     }
 
     public static void assertMatch(Iterable<Meal> actual, Meal... expected) {
@@ -43,6 +42,6 @@ public class MealTestData {
     }
 
     public static void assertMatch(Iterable<Meal> actual, Iterable<Meal> expected) {
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).usingElementComparatorOnFields("description", "calories", "dateTime").isEqualTo(expected);
     }
 }
