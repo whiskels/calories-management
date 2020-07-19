@@ -1,17 +1,25 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AfterClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.javawebinar.topjava.JUnitStopWatch;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -25,6 +33,23 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+    protected final static Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+    private static final Map<String, Long> testResults = new TreeMap<>();
+
+    @Rule
+    public JUnitStopWatch watch = new JUnitStopWatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            testResults.put(description.getMethodName(), nanos / 1000);
+            super.finished(nanos, description);
+        }
+    };
+
+    @AfterClass
+    public static void printResults() {
+        testResults.forEach((key, value) -> log.info("Method {} finished in {} microseconds",
+                key, value));
+    }
 
     @Autowired
     private MealService service;
