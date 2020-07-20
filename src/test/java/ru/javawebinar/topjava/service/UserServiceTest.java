@@ -1,26 +1,18 @@
 package ru.javawebinar.topjava.service;
 
-import org.junit.AfterClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.javawebinar.topjava.JUnitStopWatch;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.UserTestData.*;
@@ -31,24 +23,7 @@ import static ru.javawebinar.topjava.UserTestData.*;
 })
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
-public class UserServiceTest {
-    protected final static Logger log = LoggerFactory.getLogger(UserServiceTest.class);
-    private static final Map<String, Long> testResults = new TreeMap<>();
-
-    @Rule
-    public JUnitStopWatch watch = new JUnitStopWatch() {
-        @Override
-        protected void finished(long nanos, Description description) {
-            testResults.put(description.getMethodName(), nanos / 1000);
-            super.finished(nanos, description);
-        }
-    };
-
-    @AfterClass
-    public static void printResults() {
-        testResults.forEach((key, value) -> log.info("Method {} finished in {} microseconds",
-                key, value));
-    }
+public class UserServiceTest extends AbstractServiceTest {
 
     @Autowired
     private UserService service;
