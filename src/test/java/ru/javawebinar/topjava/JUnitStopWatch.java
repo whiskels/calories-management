@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JUnitStopWatch extends Stopwatch {
-    protected final static Logger log = LoggerFactory.getLogger(JUnitStopWatch.class);
+    protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    private static void logInfo(Description description, String status, long nanos) {
+    private void logInfo(Description description, String status, long nanos) {
         String testName = description.getMethodName();
         log.info(String.format("Test %s %s, spent %d microseconds",
                 testName, status, TimeUnit.NANOSECONDS.toMillis(nanos)));
