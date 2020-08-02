@@ -10,11 +10,11 @@ import java.util.List;
 @Repository
 public class DataJpaMealRepository implements MealRepository {
 
-    private final CrudMealRepository crudRepository;
+    private final CrudMealRepository crudMealRepository;
     private final CrudUserRepository crudUserRepository;
 
-    public DataJpaMealRepository(CrudMealRepository crudRepository, CrudUserRepository crudUserRepository) {
-        this.crudRepository = crudRepository;
+    public DataJpaMealRepository(CrudMealRepository crudMealRepository, CrudUserRepository crudUserRepository) {
+        this.crudMealRepository = crudMealRepository;
         this.crudUserRepository = crudUserRepository;
     }
 
@@ -24,27 +24,27 @@ public class DataJpaMealRepository implements MealRepository {
             return null;
         } else {
             meal.setUser(crudUserRepository.getOne(userId));
-            return crudRepository.save(meal);
+            return crudMealRepository.save(meal);
         }
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        return crudRepository.deleteByIdAndUserId(id, userId) != 0;
+        return crudMealRepository.deleteByIdAndUserId(id, userId) != 0;
     }
 
     @Override
     public Meal get(int id, int userId) {
-        return crudRepository.findOneByIdAndUserId(id, userId);
+        return crudMealRepository.findOneByIdAndUserId(id, userId);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.findAllByUserIdOrderByDateTimeDesc(userId);
+        return crudMealRepository.findAllByUserIdOrderByDateTimeDesc(userId);
     }
 
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
-        return crudRepository.findAllByDateTimeGreaterThanEqualAndDateTimeLessThanAndUserIdOrderByDateTimeDesc(startDateTime, endDateTime, userId);
+        return crudMealRepository.findAllByDateTimeGreaterThanEqualAndDateTimeLessThanAndUserIdOrderByDateTimeDesc(startDateTime, endDateTime, userId);
     }
 }
