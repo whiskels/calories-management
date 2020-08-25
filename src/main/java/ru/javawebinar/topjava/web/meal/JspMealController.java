@@ -4,7 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.javawebinar.topjava.model.Meal;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,15 +20,16 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
 import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 @Controller
+@RequestMapping("/meals")
 public class JspMealController extends AbstractMealController {
 
-    @GetMapping("/meals")
+    @GetMapping
     public String getMeals(Model model) {
         model.addAttribute("meals", getAll());
         return "meals";
     }
 
-    @GetMapping("/meals/filter")
+    @GetMapping("/filter")
     public String getMealsBetween(HttpServletRequest request, Model model) {
         LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
         LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
@@ -36,25 +39,25 @@ public class JspMealController extends AbstractMealController {
         return "meals";
     }
 
-    @GetMapping("/meals/create")
+    @GetMapping("/create")
     public String createMeal(HttpServletRequest request) {
         request.setAttribute("meal", new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000));
         return "mealForm";
     }
 
-    @GetMapping("/meals/update")
+    @GetMapping("/update")
     public String updateMeal(HttpServletRequest request) {
         request.setAttribute("meal", get(getId(request)));
         return "mealForm";
     }
 
-    @GetMapping("/meals/delete")
+    @GetMapping("/delete")
     public String deleteMeal(HttpServletRequest request) {
         delete(getId(request));
         return "redirect:/meals";
     }
 
-    @PostMapping("/meals")
+    @PostMapping
     public String saveMeal(HttpServletRequest request) {
         Meal meal = new Meal(
                 LocalDateTime.parse(request.getParameter("dateTime")),
