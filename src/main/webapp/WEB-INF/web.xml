@@ -5,6 +5,7 @@
          version="4.0">
 
     <display-name>Topjava</display-name>
+    <absolute-ordering/>
 
     <context-param>
         <param-name>spring.profiles.default</param-name>
