@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
@@ -12,11 +13,12 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
+import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(value = "/meals")
+@RequestMapping(value = "/ajax/meals")
 public class MealUIController extends AbstractMealController {
 
     @Override
@@ -34,18 +36,20 @@ public class MealUIController extends AbstractMealController {
 
     @PostMapping
     @ResponseStatus(NO_CONTENT)
-    public void updateOrCreate(HttpServletRequest request) {
-        Meal meal = new Meal(LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"),
-                Integer.parseInt(request.getParameter("calories")));
+    public void updateOrCreate(@RequestParam Integer id,
+                               @RequestParam @DateTimeFormat(iso = DATE_TIME) LocalDateTime dateTime,
+                               @RequestParam String description,
+                               @RequestParam int calories) {
+        Meal meal = new Meal(id, dateTime, description, calories);
 
-        if (request.getParameter("id").isEmpty()) {
+        if (meal.isNew()) {
             super.create(meal);
         } else {
             // super.update(meal, getId(request));
         }
     }
 
+    @Override
     @GetMapping(value = "/filter", produces = APPLICATION_JSON_VALUE)
     public List<MealTo> getBetween(
             @RequestParam @Nullable LocalDate startDate,

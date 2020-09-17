@@ -33,7 +33,6 @@
 
                         <label for="endTime"><spring:message code="meal.endTime"/></label>
                         <input class="form-control" type="time" name="endTime" id="endTime">
-                        </dl>
                     </div>
                 </form>
             </div>

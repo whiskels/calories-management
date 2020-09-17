@@ -9,7 +9,7 @@ function makeEditable(ctx) {
     });
 
     // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
-    $.ajaxSetup({cache: false});
+    $.ajaxSetup({cache: true});
 }
 
 function add() {
@@ -40,7 +40,7 @@ function save() {
         data: form.serialize()
     }).done(function () {
         $("#editRow").modal("hide");
-        updateFilteredTable();
+        context.updateTable();
         successNoty("Saved");
     });
 }
