@@ -3,6 +3,7 @@ package ru.javawebinar.topjava.service;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
@@ -30,6 +31,16 @@ public class UserService {
     @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id), id);
+    }
+
+    @Transactional
+    @CacheEvict(value = "users", allEntries = true)
+    public void enable(int id, boolean enabled) {
+        final User user = get(id);
+        if (enabled != user.isEnabled()) {
+            user.setEnabled(enabled);
+            repository.save(user);
+        }
     }
 
     public User get(int id) {

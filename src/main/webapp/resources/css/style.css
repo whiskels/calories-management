@@ -15,6 +15,10 @@ dd {
     vertical-align: top;
 }
 
+tr[data-userEnabled="false"] {
+    color: gray;
+}
+
 tr[data-mealExcess="false"] {
     color: green;
 }

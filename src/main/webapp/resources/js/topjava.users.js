@@ -1,7 +1,9 @@
+const userAjaxUrl = "ajax/admin/users/";
+
 // $(document).ready(function () {
 $(function () {
     makeEditable({
-            ajaxUrl: "admin/users/",
+            ajaxUrl: userAjaxUrl,
             datatableApi: $("#datatable").DataTable({
                 "paging": false,
                 "info": true,
@@ -38,8 +40,19 @@ $(function () {
                 ]
             }),
             updateTable: function () {
-                $.get("admin/users/", updateTableByData);
+                $.get(userAjaxUrl, updateTableByData);
             }
         }
     );
 });
+
+function enable(checked, id) {
+    $.ajax({
+        url: userAjaxUrl + id,
+        type: "POST",
+        data: "enabled=" + checked
+    }).done(function () {
+        successNoty("Updated");
+        updateTableByData();
+    });
+}
