@@ -46,13 +46,15 @@ $(function () {
     );
 });
 
-function enable(checked, id) {
+function enable(checkbox, id) {
+    const enabled = checkbox.is(":checked");
+
     $.ajax({
         url: userAjaxUrl + id,
         type: "POST",
-        data: "enabled=" + checked
+        data: "enabled=" + enabled
     }).done(function () {
-        successNoty("Updated");
-        updateTableByData();
+        checkbox.closest("tr").attr("data-userEnabled", enabled);
+        successNoty("Updated")
     });
 }
