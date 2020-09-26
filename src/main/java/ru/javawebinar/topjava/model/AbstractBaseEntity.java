@@ -29,6 +29,7 @@ public abstract class AbstractBaseEntity {
         this.id = id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
