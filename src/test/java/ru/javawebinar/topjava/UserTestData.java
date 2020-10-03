@@ -12,11 +12,11 @@ import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 
 public class UserTestData {
-    public static TestMatcher<User> USER_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(User.class, "registered", "meals");
+    public static TestMatcher<User> USER_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(User.class, "registered", "meals", "password");
     public static TestMatcher<User> USER_WITH_MEALS_MATCHER =
             TestMatcher.usingAssertions(User.class,
                     (a, e) -> assertThat(a).usingRecursiveComparison()
-                            .ignoringFields("registered", "meals.user").ignoringAllOverriddenEquals().isEqualTo(e),
+                            .ignoringFields("registered", "meals.user", "password").ignoringAllOverriddenEquals().isEqualTo(e),
                     (a, e) -> {
                         throw new UnsupportedOperationException();
                     });
