@@ -1,34 +1,20 @@
 package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
-import ru.javawebinar.topjava.util.ValidationUtil;
-import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static ru.javawebinar.topjava.web.ExceptionInfoHandler.EXCEPTION_MEAL_DUPLICATE_DATETIME;
-import static ru.javawebinar.topjava.web.ExceptionInfoHandler.EXCEPTION_USER_DUPLICATE_MAIL;
-
 @RestController
 @RequestMapping("/profile/meals")
 public class MealUIController extends AbstractMealController {
-
-    @Autowired
-    MessageSource messageSource;
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,15 +37,10 @@ public class MealUIController extends AbstractMealController {
 
     @PostMapping
     public void createOrUpdate(@Valid Meal meal) {
-        try {
-            if (meal.isNew()) {
-                super.create(meal);
-            } else {
-                super.update(meal, meal.getId());
-            }
-        } catch (DataIntegrityViolationException e) {
-            final String localizedErrorMessage = messageSource.getMessage(EXCEPTION_MEAL_DUPLICATE_DATETIME, null, LocaleContextHolder.getLocale());
-            throw new IllegalRequestDataException(localizedErrorMessage);
+        if (meal.isNew()) {
+            super.create(meal);
+        } else {
+            super.update(meal, meal.getId());
         }
     }
 
