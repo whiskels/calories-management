@@ -2,7 +2,7 @@
 > For windows use `Git Bash`
 
 #### get All Users
-`curl -s http://localhost:8080/topjava/rest/admin/users --user admin@gmail.com:admin`
+    `curl -s http://localhost:8080/topjava/rest/admin/users --user admin@gmail.com:admin`
 
 #### get Users 100001
 `curl -s http://localhost:8080/topjava/rest/admin/users/100001 --user admin@gmail.com:admin`
